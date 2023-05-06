@@ -1,4 +1,3 @@
-
 from otree.api import *
 c = cu
 
@@ -20,9 +19,6 @@ def creating_session(subsession: Subsession):
     session = subsession.session
     for g in subsession.get_groups():
         import random
-    
-        item_value = random.uniform(C.BID_MIN, C.BID_MAX)
-        g.item_value = round(item_value, 1)
 
 class Group(BaseGroup):
     item_value = models.CurrencyField(doc='Common value of the item to be auctioned random for treatment')
@@ -30,7 +26,7 @@ class Group(BaseGroup):
 
 def generate_value_estimate(group: Group):
     import random
-    
+    group.item_value = 1
     estimate = group.item_value + random.uniform(
         -C.BID_NOISE, C.BID_NOISE
     )
@@ -57,7 +53,10 @@ def set_winner(group: Group):
 class Player(BasePlayer):
     item_value_estimate = models.CurrencyField(doc='Estimate of the common value may be different for each player')
     bid_amount = models.CurrencyField(doc='Amount bidded by the player', label='Bid amount', max=C.BID_MAX, min=C.BID_MIN)
-    is_winner = models.BooleanField(doc='Indicates whether the player is the winner', initial=False)
+    module_1_amount = models.CurrencyField(doc="Preference of module 1 in points", label="module 1 amount")
+    module_2_amount = models.CurrencyField(doc="Preference of module 2 in points", label="module 2 amount")
+    module_3_amount = models.CurrencyField(doc="Preference of module 3 in points", label="module 3 amount")
+    module_4_amount = models.CurrencyField(doc="Preference of module 4 in points", label="module 4 amount")
 
 def set_payoff(player: Player):
     group = player.group
@@ -75,12 +74,18 @@ class Introduction(Page):
         group = player.group
         player.item_value_estimate = generate_value_estimate(group)
 
-class Bid(Page):
+class Preference_elicitation(Page):
     form_model = 'player'
-    form_fields = ['bid_amount']
+    form_fields = ["module_1_amount", "module_2_amount", "module_3_amount", "module_4_amount"]
 
-class ResultsWaitPage(WaitPage):
+class PreferenceWaitPage(WaitPage):
     after_all_players_arrive = set_winner
+
+class Analysis(Page):
+    form_model = "player"
+
+class Bid(Page):
+    form_model = "player"
 
 class Results(Page):
     form_model = 'player'
@@ -89,4 +94,4 @@ class Results(Page):
         group = player.group
         return dict(is_greedy=group.item_value - player.bid_amount < 0)
 
-page_sequence = [Introduction, Bid, ResultsWaitPage, Results]
+page_sequence = [Introduction, Preference_elicitation, PreferenceWaitPage, Analysis, Bid, Results]
