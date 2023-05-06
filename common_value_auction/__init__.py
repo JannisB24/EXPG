@@ -8,8 +8,8 @@ class C(BaseConstants):
     PLAYERS_PER_GROUP = None
     NUM_ROUNDS = 1
     BID_MIN = cu(0)
-    BID_MAX = cu(10)
-    BID_NOISE = cu(1)
+    BID_MAX = cu(100)
+    BID_NOISE = cu(0)
     INSTRUCTIONS_TEMPLATE = 'common_value_auction/instructions.html'
 class Subsession(BaseSubsession):
     pass
