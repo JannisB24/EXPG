@@ -5,6 +5,7 @@ doc = '\nIn a common value auction game, players simultaneously bid on the item 
 
 class C(BaseConstants):
     NAME_IN_URL = 'common_value_auction'
+    PLAYERS = 4
     PLAYERS_PER_GROUP = None
     NUM_ROUNDS = 1
     BID_MIN = cu(0)
@@ -24,65 +25,38 @@ class Group(BaseGroup):
     item_value = models.CurrencyField(doc='Common value of the item to be auctioned random for treatment')
     highest_bid = models.CurrencyField()
 
-def generate_value_estimate(group: Group):
-    import random
-    group.item_value = 1
-    estimate = group.item_value + random.uniform(
-        -C.BID_NOISE, C.BID_NOISE
-    )
-    estimate = round(estimate, 1)
-    if estimate < C.BID_MIN:
-        estimate = C.BID_MIN
-    if estimate > C.BID_MAX:
-        estimate = C.BID_MAX
-    return estimate
-
-def set_winner(group: Group):
-    import random
-    
-    players = group.get_players()
-    group.highest_bid = max([p.bid_amount for p in players])
-    players_with_highest_bid = [p for p in players if p.bid_amount == group.highest_bid]
-    winner = random.choice(
-        players_with_highest_bid
-    )  # if tie, winner is chosen at random
-    winner.is_winner = True
-    for p in players:
-        set_payoff(p)
+def set_payoffs(group):
+    for p in group.get_players():
+        p.payoff = 100
 
 class Player(BasePlayer):
-    item_value_estimate = models.CurrencyField(doc='Estimate of the common value may be different for each player')
-    bid_amount = models.CurrencyField(doc='Amount bidded by the player', label='Bid amount', max=C.BID_MAX, min=C.BID_MIN)
     module_1_amount = models.CurrencyField(doc="Preference of module 1 in points", label="module 1 amount")
     module_2_amount = models.CurrencyField(doc="Preference of module 2 in points", label="module 2 amount")
     module_3_amount = models.CurrencyField(doc="Preference of module 3 in points", label="module 3 amount")
     module_4_amount = models.CurrencyField(doc="Preference of module 4 in points", label="module 4 amount")
-
-def set_payoff(player: Player):
-    group = player.group
-    if player.is_winner:
-        player.payoff = group.item_value - player.bid_amount
-        if player.payoff < 0:
-            player.payoff = 0
-    else:
-        player.payoff = 0
+    #hier fehlt die Kontrolle ob die vollen 100 Punkte verteilt wurden (nicht mehr und nicht weniger)
 
 class Introduction(Page):
     form_model = 'player'
-    @staticmethod
-    def before_next_page(player: Player, timeout_happened):
-        group = player.group
-        player.item_value_estimate = generate_value_estimate(group)
 
 class Preference_elicitation(Page):
     form_model = 'player'
     form_fields = ["module_1_amount", "module_2_amount", "module_3_amount", "module_4_amount"]
 
+    @staticmethod
+    def error_message(player, values):
+        print('values is', values)
+        if values['module_1_amount'] + values['module_2_amount'] + values['module_3_amount'] + values["module_4_amount"] != 100:
+            return 'The numbers must add up to 100'
+
 class PreferenceWaitPage(WaitPage):
-    after_all_players_arrive = set_winner
+    after_all_players_arrive = set_payoffs
 
 class Analysis(Page):
-    form_model = "player"
+    def calculating_avg(subsession):
+        players = subsession.get_others_in_subsession()
+        avg_module_1 = [p.module_1_amount for p in players]
+        print(avg_module_1)
 
 class Bid(Page):
     form_model = "player"
