@@ -3,6 +3,7 @@ from otree.api import *
 c = cu
 
 doc = '\nIn a common value auction game, players simultaneously bid on the item being\nauctioned.<br/>\nPrior to bidding, they are given an estimate of the actual value of the item.\nThis actual value is revealed after the bidding.<br/>\nBids are private. The player with the highest bid wins the auction, but\npayoff depends on the bid amount and the actual value.<br/>\n'
+
 class C(BaseConstants):
     NAME_IN_URL = 'common_value_auction'
     PLAYERS_PER_GROUP = None
@@ -11,8 +12,10 @@ class C(BaseConstants):
     BID_MAX = cu(100)
     BID_NOISE = cu(0)
     INSTRUCTIONS_TEMPLATE = 'common_value_auction/instructions.html'
+
 class Subsession(BaseSubsession):
     pass
+
 def creating_session(subsession: Subsession):
     session = subsession.session
     for g in subsession.get_groups():
@@ -20,9 +23,11 @@ def creating_session(subsession: Subsession):
     
         item_value = random.uniform(C.BID_MIN, C.BID_MAX)
         g.item_value = round(item_value, 1)
+
 class Group(BaseGroup):
     item_value = models.CurrencyField(doc='Common value of the item to be auctioned random for treatment')
     highest_bid = models.CurrencyField()
+
 def generate_value_estimate(group: Group):
     import random
     
@@ -35,6 +40,7 @@ def generate_value_estimate(group: Group):
     if estimate > C.BID_MAX:
         estimate = C.BID_MAX
     return estimate
+
 def set_winner(group: Group):
     import random
     
@@ -47,10 +53,12 @@ def set_winner(group: Group):
     winner.is_winner = True
     for p in players:
         set_payoff(p)
+
 class Player(BasePlayer):
     item_value_estimate = models.CurrencyField(doc='Estimate of the common value may be different for each player')
     bid_amount = models.CurrencyField(doc='Amount bidded by the player', label='Bid amount', max=C.BID_MAX, min=C.BID_MIN)
     is_winner = models.BooleanField(doc='Indicates whether the player is the winner', initial=False)
+
 def set_payoff(player: Player):
     group = player.group
     if player.is_winner:
@@ -59,21 +67,26 @@ def set_payoff(player: Player):
             player.payoff = 0
     else:
         player.payoff = 0
+
 class Introduction(Page):
     form_model = 'player'
     @staticmethod
     def before_next_page(player: Player, timeout_happened):
         group = player.group
         player.item_value_estimate = generate_value_estimate(group)
+
 class Bid(Page):
     form_model = 'player'
     form_fields = ['bid_amount']
+
 class ResultsWaitPage(WaitPage):
     after_all_players_arrive = set_winner
+
 class Results(Page):
     form_model = 'player'
     @staticmethod
     def vars_for_template(player: Player):
         group = player.group
         return dict(is_greedy=group.item_value - player.bid_amount < 0)
+
 page_sequence = [Introduction, Bid, ResultsWaitPage, Results]
