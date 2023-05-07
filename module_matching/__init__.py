@@ -21,11 +21,10 @@ def creating_session(subsession: Subsession):
     for g in subsession.get_groups():
         import random
 
-""" Weiß noch nicht was in die Gruppenklasse kommt
+# Altlast (Weiß noch nicht was in die Gruppenklasse kommt)
 class Group(BaseGroup):
     item_value = models.CurrencyField(doc="Common value of the item to be auctioned random for treatment")
     highest_bid = models.CurrencyField()
-"""
 
 """ Altlast (haben noch keine Payoff Dynamik, diese basiert auf den Punkten)
 def set_payoffs(group):
