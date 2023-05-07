@@ -26,11 +26,10 @@ class Group(BaseGroup):
     item_value = models.CurrencyField(doc="Common value of the item to be auctioned random for treatment")
     highest_bid = models.CurrencyField()
 
-""" Altlast (haben noch keine Payoff Dynamik, diese basiert auf den Punkten)
+# Altlast (haben noch keine Payoff Dynamik, diese basiert auf den Punkten)
 def set_payoffs(group):
     for p in group.get_players():
         p.payoff = 100
-"""
         
 class Player(BasePlayer):
     module_1_amount = models.CurrencyField(doc="Preference of module 1 in points", label="module 1 amount")
