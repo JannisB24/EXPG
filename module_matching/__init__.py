@@ -4,7 +4,7 @@ c = cu
 doc = "We create matching markets based on the preferences of university modules"
 
 class C(BaseConstants):
-    NAME_IN_URL = "module matching"
+    NAME_IN_URL = "module_matching"
     PLAYERS_PER_GROUP = 4
     PLAYERS = 4
     NUM_ROUNDS = 1
