@@ -1,6 +1,6 @@
 from os import environ
 SESSION_CONFIG_DEFAULTS = dict(real_world_currency_per_point=1, participation_fee=0)
-SESSION_CONFIGS = [dict(name="my_session", num_demo_participants=None, app_sequence=["matching_modules"])]
+SESSION_CONFIGS = [dict(name="my_session", num_demo_participants=None, app_sequence=["module_matching"])]
 LANGUAGE_CODE = "de"
 REAL_WORLD_CURRENCY_CODE = "EUR"
 USE_POINTS = True
