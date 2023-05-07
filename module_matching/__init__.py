@@ -16,10 +16,10 @@ class C(BaseConstants):
 class Subsession(BaseSubsession):
     pass
 
-def creating_session(subsession: Subsession):
-    session = subsession.sessionplayer
-    for g in subsession.get_groups():
-        import random
+#def creating_session(subsession: Subsession):
+#    session = subsession.sessionplayer
+#    for g in subsession.get_groups():
+#        import random
 
 class Group(BaseGroup):
     avg_module_1  = models.CurrencyField(doc="total points allocated to module 1")
