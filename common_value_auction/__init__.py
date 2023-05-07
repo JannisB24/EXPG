@@ -5,8 +5,7 @@ doc = '\nIn a common value auction game, players simultaneously bid on the item 
 
 class C(BaseConstants):
     NAME_IN_URL = 'common_value_auction'
-    PLAYERS = 4
-    PLAYERS_PER_GROUP = None
+    PLAYERS_PER_GROUP = 4
     NUM_ROUNDS = 1
     BID_MIN = cu(0)
     BID_MAX = cu(100)
