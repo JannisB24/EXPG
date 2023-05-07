@@ -21,22 +21,35 @@ def creating_session(subsession: Subsession):
     for g in subsession.get_groups():
         import random
 
-# Altlast (Weiß noch nicht was in die Gruppenklasse kommt)
 class Group(BaseGroup):
-    item_value = models.CurrencyField(doc="Common value of the item to be auctioned random for treatment")
-    highest_bid = models.CurrencyField()
+    avg_module_1  = models.CurrencyField(doc="total points allocated to module 1")
+    avg_module_2  = models.CurrencyField(doc="total points allocated to module 2")
+    avg_module_3  = models.CurrencyField(doc="total points allocated to module 3")
+    avg_module_4  = models.CurrencyField(doc="total points allocated to module 4")
 
-# Altlast (haben noch keine Payoff Dynamik, diese basiert auf den Punkten)
-def set_payoffs(group):
-    for p in group.get_players():
-        p.payoff = 100
-        
 class Player(BasePlayer):
     module_1_amount = models.CurrencyField(doc="Preference of module 1 in points", label="module 1 amount")
     module_2_amount = models.CurrencyField(doc="Preference of module 2 in points", label="module 2 amount")
     module_3_amount = models.CurrencyField(doc="Preference of module 3 in points", label="module 3 amount")
     module_4_amount = models.CurrencyField(doc="Preference of module 4 in points", label="module 4 amount")
 
+# Altlast (haben noch keine Payoff Dynamik, diese basiert auf den Punkten)
+def set_payoffs(group):
+    for p in group.get_players():
+        p.payoff = 100
+
+# hier berechnen wir den Durchschnitt über alle Spieler (theoretisch müssten wir die aber über die anderen 3 Spieler berechnen)
+def avg_modules(group: Group):
+    players = group.get_players()
+    module_1_allocations = [p.module_1_amount for p in players]
+    group.avg_module_1 = sum(module_1_allocations) / 4
+    module_2_allocations = [p.module_2_amount for p in players]
+    group.avg_module_2 = sum(module_2_allocations) / 4
+    module_3_allocations = [p.module_3_amount for p in players]
+    group.avg_module_3 = sum(module_3_allocations) / 4
+    module_4_allocations = [p.module_4_amount for p in players]
+    group.avg_module_4 = sum(module_4_allocations) / 4
+        
 class Introduction(Page):
     form_model = "player"
 
@@ -52,7 +65,7 @@ class Preference_elicitation(Page):
             return "The numbers must add up to 100"
 
 class PreferenceWaitPage(WaitPage):
-    form_model = "player"
+    after_all_players_arrive = avg_modules
 
 class Analysis(Page):
     def calculating_avg(subsession):
