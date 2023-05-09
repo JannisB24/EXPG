@@ -35,10 +35,10 @@ class Group(BaseGroup):
 
 class Player(BasePlayer):
     # Preferences
-    module_1_preference = models.CurrencyField(doc="Preference of module 1 in points", label="module 1 amount")
-    module_2_preference = models.CurrencyField(doc="Preference of module 2 in points", label="module 2 amount")
-    module_3_preference = models.CurrencyField(doc="Preference of module 3 in points", label="module 3 amount")
-    module_4_preference = models.CurrencyField(doc="Preference of module 4 in points", label="module 4 amount")
+    module_1_preference = models.CurrencyField(doc="Preference of module 1 in points", label="module 1 amount", initial=0, max=C.BID_MAX, min=C.BID_MIN)
+    module_2_preference = models.CurrencyField(doc="Preference of module 2 in points", label="module 2 amount", initial=0, max=C.BID_MAX, min=C.BID_MIN)
+    module_3_preference = models.CurrencyField(doc="Preference of module 3 in points", label="module 3 amount", initial=0, max=C.BID_MAX, min=C.BID_MIN)
+    module_4_preference = models.CurrencyField(doc="Preference of module 4 in points", label="module 4 amount", initial=0, max=C.BID_MAX, min=C.BID_MIN)
     # Points
     module_1_value = models.CurrencyField(label="module_1 Value",initial=0, max=C.BID_MAX, min=C.BID_MIN)
     module_2_value = models.CurrencyField(label="module_2 Value",initial=0, max=C.BID_MAX, min=C.BID_MIN)
