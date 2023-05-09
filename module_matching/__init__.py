@@ -1,4 +1,7 @@
+import pandas as pd
 from otree.api import *
+from random import shuffle
+
 c = cu
 
 doc = "We create matching markets based on the preferences of university modules"
@@ -6,11 +9,12 @@ doc = "We create matching markets based on the preferences of university modules
 class C(BaseConstants):
     NAME_IN_URL = "module_matching"
     PLAYERS_PER_GROUP = 4
-    PLAYERS = 4
     NUM_ROUNDS = 1
+    NUM_QUESTIONS = 2
     BID_MIN = cu(0)
     BID_MAX = cu(100)
-    BID_NOISE = cu(0)
+    PRIO_MIN = cu(1)
+    PRIO_MAX = cu(4)
     INSTRUCTIONS_TEMPLATE = "module_matching/instructions.html"
 
 class Subsession(BaseSubsession):
