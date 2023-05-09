@@ -20,16 +20,18 @@ class C(BaseConstants):
 class Subsession(BaseSubsession):
     pass
 
-#def creating_session(subsession: Subsession):
-#    session = subsession.sessionplayer
-#    for g in subsession.get_groups():
-#        import random
+def creating_session(subsession: Subsession):
+    import itertools
+    treatments = itertools.cycle([True, False])
+    for group in subsession.get_groups():
+        group.treatment = next(treatments)
 
 class Group(BaseGroup):
     avg_module_1  = models.CurrencyField(doc="total points allocated to module 1")
     avg_module_2  = models.CurrencyField(doc="total points allocated to module 2")
     avg_module_3  = models.CurrencyField(doc="total points allocated to module 3")
     avg_module_4  = models.CurrencyField(doc="total points allocated to module 4")
+    treatment = models.BooleanField()
 
 class Player(BasePlayer):
     # Preferences
