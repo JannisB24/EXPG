@@ -1,0 +1,39 @@
+{{ extends 'global/Page.html' }}
+{{ block title }}Bid{{ endblock }}
+
+{{ block content }}
+
+<p>
+    The mean value of the WPM Preferences of all Team members are the following
+</p>
+
+<table class="table" style="width:600px">
+
+    <tr>
+        <th>Mean Value Module 1</th>
+        <th>Mean Value Module 2</th>
+        <th>Mean Value Module 3</th>
+        <th>Mean Value Module 4</th>
+    </tr>
+
+<tr>
+    <td>{{ group.avg_module_1 }}</td>
+    <td>{{ group.avg_module_2 }}</td>
+    <td>{{ group.avg_module_3 }}</td>
+    <td>{{ group.avg_module_4 }}</td>
+</tr>
+
+</table>
+
+
+<p>
+    {{ my_text }}
+</p>
+
+{{ formfields }}
+
+{{ next_button }}
+
+{{ include C.INSTRUCTIONS_TEMPLATE }}
+
+{{ endblock }}
