@@ -35,10 +35,10 @@ class Group(BaseGroup):
 
 class Player(BasePlayer):
     # Preferences
-    module_1_amount = models.CurrencyField(doc="Preference of module 1 in points", label="module 1 amount")
-    module_2_amount = models.CurrencyField(doc="Preference of module 2 in points", label="module 2 amount")
-    module_3_amount = models.CurrencyField(doc="Preference of module 3 in points", label="module 3 amount")
-    module_4_amount = models.CurrencyField(doc="Preference of module 4 in points", label="module 4 amount")
+    module_1_preference = models.CurrencyField(doc="Preference of module 1 in points", label="module 1 amount")
+    module_2_preference = models.CurrencyField(doc="Preference of module 2 in points", label="module 2 amount")
+    module_3_preference = models.CurrencyField(doc="Preference of module 3 in points", label="module 3 amount")
+    module_4_preference = models.CurrencyField(doc="Preference of module 4 in points", label="module 4 amount")
     # Points
     module_1_value = models.CurrencyField(label="module_1 Value",initial=0, max=C.BID_MAX, min=C.BID_MIN)
     module_2_value = models.CurrencyField(label="module_2 Value",initial=0, max=C.BID_MAX, min=C.BID_MIN)
@@ -63,13 +63,13 @@ def set_payoffs(group):
 # hier berechnen wir den Durchschnitt über alle Spieler (theoretisch müssten wir die aber über die anderen 3 Spieler berechnen)
 def avg_modules(group: Group):
     players = group.get_players()
-    module_1_allocations = [p.module_1_amount for p in players]
+    module_1_allocations = [p.module_1_preference for p in players]
     group.avg_module_1 = sum(module_1_allocations) / 4
-    module_2_allocations = [p.module_2_amount for p in players]
+    module_2_allocations = [p.module_2_preference for p in players]
     group.avg_module_2 = sum(module_2_allocations) / 4
-    module_3_allocations = [p.module_3_amount for p in players]
+    module_3_allocations = [p.module_3_preference for p in players]
     group.avg_module_3 = sum(module_3_allocations) / 4
-    module_4_allocations = [p.module_4_amount for p in players]
+    module_4_allocations = [p.module_4_preference for p in players]
     group.avg_module_4 = sum(module_4_allocations) / 4
 
 def get_wpms(group: Group):
@@ -78,10 +78,10 @@ def get_wpms(group: Group):
     player_value_list = []
     for player in group.get_players():
         player_dict = {
-            "module_1": player.module_1_amount,
-            "module_2": player.module_2_amount,
-            "module_3": player.module_3_amount,
-            "module_4": player.module_4_amount,
+            "module_1": player.module_1_preference,
+            "module_2": player.module_2_preference,
+            "module_3": player.module_3_preference,
+            "module_4": player.module_4_preference,
             }
         player_value_list.append(player_dict)
     df_value = pd.DataFrame(player_value_list)
@@ -182,13 +182,13 @@ class Introduction(Page):
 
 class Preference_elicitation(Page):
     form_model = "player"
-    form_fields = ["module_1_amount", "module_2_amount", "module_3_amount", "module_4_amount"]
+    form_fields = ["module_1_preference", "module_2_preference", "module_3_preference", "module_4_preference"]
 
     # field validation
     @staticmethod
     def error_message(player, values):
         print("values is", values)
-        if values["module_1_amount"] + values["module_2_amount"] + values["module_3_amount"] + values["module_4_amount"] != 100:
+        if values["module_1_preference"] + values["module_2_preference"] + values["module_3_preference"] + values["module_4_preference"] != 100:
             return "The numbers must add up to 100"
 
 class PreferenceWaitPage(WaitPage):
@@ -197,7 +197,7 @@ class PreferenceWaitPage(WaitPage):
 class Analysis(Page):
     def calculating_avg(subsession):
         players = subsession.get_others_in_subsession()
-        avg_module_1 = [p.module_1_amount for p in players]
+        avg_module_1 = [p.module_1_preference for p in players]
         print(avg_module_1)
 
 class Bid(Page):
