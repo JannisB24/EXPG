@@ -3,37 +3,34 @@
 
 {{ block content }}
 
-<p>
-    The mean value of the WPM Preferences of all Team members are the following
-</p>
-
-<table class="table" style="width:600px">
-
-    <tr>
-        <th>Mean Value Module 1</th>
-        <th>Mean Value Module 2</th>
-        <th>Mean Value Module 3</th>
-        <th>Mean Value Module 4</th>
-    </tr>
-
-<tr>
-    <td>{{ group.avg_module_1 }}</td>
-    <td>{{ group.avg_module_2 }}</td>
-    <td>{{ group.avg_module_3 }}</td>
-    <td>{{ group.avg_module_4 }}</td>
-</tr>
-
-</table>
-
+<div style="border: 1px solid black; padding: 10px;">
+    <p>
+        Die Module wurden so oft mit Prio 1 gewählt
+        <br>Modul 1: {{ group.prio_1_module_1 }}
+        <br>Modul 2: {{ group.prio_1_module_2 }}
+        <br>Modul 3: {{ group.prio_1_module_3 }}
+        <br>Modul 4: {{ group.prio_1_module_4 }}
+        <br>
+        <br>Deine eigenen Präferenzen waren dabei wie folgt:
+        <br>Modul 1: {{ player.prio_module_1_1 }}
+        <br>Modul 2: {{ player.prio_module_2_1 }}
+        <br>Modul 3: {{ player.prio_module_3_1 }}
+        <br>Modul 4: {{ player.prio_module_4_1 }}
+    </p>
+</div>
 
 <p>
+
+
     {{ my_text }}
+    
+    
 </p>
 
-{{ formfields }}
-
+<div style="border: 1px solid black; padding: 10px;">
+    {{ formfields }}
+</div>
 {{ next_button }}
 
-{{ include C.INSTRUCTIONS_TEMPLATE }}
 
 {{ endblock }}

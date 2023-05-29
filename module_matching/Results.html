@@ -12,18 +12,22 @@
     <tr>
         <th>WPM 1</th>
         <th>WPM 2</th>
-        <th>Preference Points (given on Prefernce Page)</th>
-        <th>Value Points (given on Bid Page)</th>
     </tr>
 
 <tr>
     <td>{{ player.WPM1 }}</td>
     <td>{{ player.WPM2 }}</td>
-    <td>{{ player.value }}</td>
-    <td>{{ player.bid }}</td>
 </tr>
 
 </table>
+
+<p>
+    You got {{ player.Favs}} of your top 2 WPMs
+</p>
+
+<div style="border: 1px solid black; padding: 10px;">
+    {{ formfields }}
+</div>
 
 {{ next_button }}
 
