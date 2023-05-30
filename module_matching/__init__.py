@@ -332,7 +332,7 @@ class Bid(Page):
     def vars_for_template(player):
         if player.group.treatment == True:
             # Text für Gruppe mit Punkten
-            my_text = "Now you're in competitition with your group members. <br>The bidding process works as follows: <br>- Priorities are highly important, at first our algorithm tries to allocate everyone to their first choice <br>- If there are more applicants than capacity for a module in a given priority, the bidding process starts <br>- Among the same priority, tie-breakers are resolved such that the applicant with the highest bid is allocated to the module"
+            my_text = "Now you're in competitition with your group members. <br>The bidding process works as follows: <br>- Initially, students are ordered by their preferences over the modules <br>- Only if there are more applicants than capacity for a module, the bidding comes into play <br>- Among people with the same priority, the highest bids win places in the module <br>- For the small probability that students have the same priority and equal bids, the winner is taken by chance"
         else:
             # Text für Gruppe mit Prioritäten
             my_text = "Now you have to decide which module you want to take. You can give each module a priority from 1 to 4, with 1 being the highest priority. Each elective module can have 2 participants and each participant gets into 2 elective modules. The higher the priority you give to a module, the higher the chance that you will be assigned to it."
