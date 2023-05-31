@@ -1,7 +1,9 @@
 import pandas as pd
 from otree.api import *
-from random import shuffle
 import random
+from django import forms
+import matplotlib.pyplot as plt
+
 
 
 
@@ -23,6 +25,10 @@ class C(BaseConstants):
     BID_MIN = cu(0)
     BID_MAX = cu(100)
     INSTRUCTIONS_TEMPLATE = "module_matching/instructions.html"
+    MODULE_1 = "Monetary policy"
+    MODULE_2 = "Brand management"
+    MODULE_3 = "Financial analysis"
+    MODULE_4 = "History of economic ethics"
 
 class Subsession(BaseSubsession):
     pass
@@ -39,12 +45,12 @@ def creating_session(subsession: Subsession):
 ################################
 
 class Group(BaseGroup):
-    prio_1_module_1  = models.IntegerField(doc="amount of participants who choose module 1 as priority 1", initial=0)
-    prio_1_module_2  = models.IntegerField(doc="amount of participants who choose module 2 as priority 1", initial=0)
-    prio_1_module_3  = models.IntegerField(doc="amount of participants who choose module 3 as priority 1", initial=0)
-    prio_1_module_4  = models.IntegerField(doc="amount of participants who choose module 4 as priority 1", initial=0)
+    prio_1_module_1  = models.IntegerField(doc="amount of participants who choose Monetary policy as priority 1", initial=0)
+    prio_1_module_2  = models.IntegerField(doc="amount of participants who choose Brand management as priority 1", initial=0)
+    prio_1_module_3  = models.IntegerField(doc="amount of participants who choose Financial analysis as priority 1", initial=0)
+    prio_1_module_4  = models.IntegerField(doc="amount of participants who choose History of economic ethics as priority 1", initial=0)
     treatment = models.BooleanField()
-    
+     
 
 ################################
 ######### Class Player #########
@@ -55,56 +61,56 @@ class Player(BasePlayer):
     # Dropdown 1-4 Prios für beide Gruppen Nr. 1
     
     prio_module_1_1 = models.IntegerField(
-        choices=[('1', 1),('2', 2),('3', 3),('4', 4),],
-        verbose_name='Priorität Module 1'
+        choices=[("1", 1),("2", 2),("3", 3),("4", 4),],
+        verbose_name="Priority monetary policy"
     )
     prio_module_2_1 = models.IntegerField(
-        choices=[('1', 1),('2', 2),('3', 3),('4', 4),],
-        verbose_name='Priorität Module 2'
+        choices=[("1", 1),("2", 2),("3", 3),("4", 4),],
+        verbose_name="Priority brand management"
     )
     prio_module_3_1 = models.IntegerField(
-        choices=[('1', 1),('2', 2),('3', 3),('4', 4),],
-        verbose_name='Priorität Module 3'
+        choices=[("1", 1),("2", 2),("3", 3),("4", 4),],
+        verbose_name="Priority financial analysis"
     )
     prio_module_4_1 = models.IntegerField(
-        choices=[('1', 1),('2', 2),('3', 3),('4', 4),],
-        verbose_name='Priorität Module 4'
+        choices=[("1", 1),("2", 2),("3", 3),("4", 4),],
+        verbose_name="Priority history of economic ethics"
     )
     
     
     # Dropdown 1-4 Prios für beide Gruppen Nr. 2
     
     prio_module_1_2 = models.IntegerField(
-        choices=[('1', 1),('2', 2),('3', 3),('4', 4),],
-        verbose_name='Priorität Module 1'
+        choices=[("1", 1),("2", 2),("3", 3),("4", 4),],
+        verbose_name="Priority monetary policy"
     )
     prio_module_2_2 = models.IntegerField(
-        choices=[('1', 1),('2', 2),('3', 3),('4', 4),],
-        verbose_name='Priorität Module 2'
+        choices=[("1", 1),("2", 2),("3", 3),("4", 4),],
+        verbose_name="Priority brand management"
     )
     prio_module_3_2 = models.IntegerField(
-        choices=[('1', 1),('2', 2),('3', 3),('4', 4),],
-        verbose_name='Priorität Module 3'
+        choices=[("1", 1),("2", 2),("3", 3),("4", 4),],
+        verbose_name="Priority financial analysis"
     )
     prio_module_4_2 = models.IntegerField(
-        choices=[('1', 1),('2', 2),('3', 3),('4', 4),],
-        verbose_name='Priorität Module 4'
+        choices=[("1", 1),("2", 2),("3", 3),("4", 4),],
+        verbose_name="Priority history of economic ethics"
     )
 
 
     # Points
-    module_1_points = models.CurrencyField(doc="Points for module 1", label="Points for module 1", initial=0, max=C.BID_MAX, min=C.BID_MIN)
-    module_2_points = models.CurrencyField(doc="Points for module 2", label="Points for module 2", initial=0, max=C.BID_MAX, min=C.BID_MIN)
-    module_3_points = models.CurrencyField(doc="Points for module 3", label="Points for module 3", initial=0, max=C.BID_MAX, min=C.BID_MIN)
-    module_4_points = models.CurrencyField(doc="Points for module 4", label="Points for module 4", initial=0, max=C.BID_MAX, min=C.BID_MIN)
+    module_1_points = models.CurrencyField(doc="Points for monetary policy", label="Points for monetary policy", initial=0, max=C.BID_MAX, min=C.BID_MIN)
+    module_2_points = models.CurrencyField(doc="Points for brand management", label="Points for brand management", initial=0, max=C.BID_MAX, min=C.BID_MIN)
+    module_3_points = models.CurrencyField(doc="Points for financial analysis", label="Points for financial analysis", initial=0, max=C.BID_MAX, min=C.BID_MIN)
+    module_4_points = models.CurrencyField(doc="Points for history of economic ethics", label="Points for history of economic ethics", initial=0, max=C.BID_MAX, min=C.BID_MIN)
     
      
     # Results
     WPM1 = models.StringField()
     WPM2 = models.StringField()
     Favs = models.IntegerField()
-    Happiness = models.IntegerField(choices=[('1', 1),('2', 2),('3', 3),('4', 4),('5', 5),('6', 6),('7', 7),('8', 8),('9', 9),('10', 10),],
-    verbose_name='How satisfied are you with your Results?')
+    Rank = models.StringField()
+    Happiness = models.IntegerField(label="How happy are you with your Results from 1-10 with 10 being the happiest:", widget=widgets.RadioSelect,choices=[(i, i) for i in range(1, 11)])
     Notes = models.TextField()
 
     
@@ -134,6 +140,25 @@ def prio_1_modules(group: Group):
         if p.prio_module_4_1 == 1:
             group.prio_1_module_4 += 1
 
+
+    #################################
+    ## Hier Barplot Werte einfügen ##
+    #################################
+def create_barplot():
+    labels = ['Monetary Policy', 'Brand Management', 'Financial Analysis', 'History of Economic Ethics']
+    values = [50, 30, 15, 5]
+    colors = ['#F9B5AC', '#F9D9AD', '#B5EAD7', '#C7CEEA']
+    
+    plt.bar(labels, values, color = colors)
+    plt.xlabel('Courses')
+    plt.ylabel('Points')
+    plt.title('Barplot Diagram')
+    plt.xticks(fontsize=7)
+    plt.savefig("_static/barplot.png")
+    print("Barplot erstellt und abgespeichert")
+
+
+
 def get_wpms(group: Group):
 
     ################################
@@ -142,10 +167,10 @@ def get_wpms(group: Group):
     player_prio_1_list = []
     for player in group.get_players():
         player_dict = {
-            "module_1": player.prio_module_1_1,
-            "module_2": player.prio_module_2_1,
-            "module_3": player.prio_module_3_1,
-            "module_4": player.prio_module_4_1,
+            "monetary policy": player.prio_module_1_1,
+            "brand management": player.prio_module_2_1,
+            "financial analysis": player.prio_module_3_1,
+            "history of economic ethics": player.prio_module_4_1,
             }
         player_prio_1_list.append(player_dict)
     df_prio_1 = pd.DataFrame(player_prio_1_list)
@@ -163,10 +188,10 @@ def get_wpms(group: Group):
     player_prio_2_list = []
     for player in group.get_players():
         player_dict = {
-            "module_1": player.prio_module_1_2,
-            "module_2": player.prio_module_2_2,
-            "module_3": player.prio_module_3_2,
-            "module_4": player.prio_module_4_2,
+            "monetary policy": player.prio_module_1_2,
+            "brand management": player.prio_module_2_2,
+            "financial analysis": player.prio_module_3_2,
+            "history of economic ethics": player.prio_module_4_2,
             }
         player_prio_2_list.append(player_dict)
     df_prio_2 = pd.DataFrame(player_prio_2_list)
@@ -182,17 +207,17 @@ def get_wpms(group: Group):
     for player in group.get_players():
         if player.group.treatment == True:
             player_dict = {
-                "module_1": player.module_1_points,
-                "module_2": player.module_2_points,
-                "module_3": player.module_3_points,
-                "module_4": player.module_4_points,
+                "monetary policy": player.module_1_points,
+                "brand management": player.module_2_points,
+                "financial analysis": player.module_3_points,
+                "history of economic ethics": player.module_4_points,
                 }
         if player.group.treatment == False:
             player_dict = {
-                "module_1": None,
-                "module_2": None,
-                "module_3": None,
-                "module_4": None,
+                "monetary policy": None,
+                "brand management": None,
+                "financial analysis": None,
+                "history of economic ethics": None,
                 }
             available_numbers = [1, 2, 3, 4]
             for key in player_dict.keys():
@@ -215,7 +240,7 @@ def get_wpms(group: Group):
 
     # Zeilen- und Spaltenzähler initialisieren
     row_count = {"P1": 0, "P2": 0, "P3": 0, "P4": 0}
-    col_count = {"module_1": 0, "module_2": 0, "module_3": 0, "module_4": 0}
+    col_count = {"monetary policy": 0, "brand management": 0, "financial analysis": 0, "history of economic ethics": 0}
 
     # DataFrame sortieren
     df_sorted = df_prio_2.stack().sort_values(ascending=True).reset_index()
@@ -293,6 +318,15 @@ def get_wpms(group: Group):
     for player in group.get_players():
         player.Favs = int(common_numbers[i])
         i += 1
+        
+        
+    for player in group.get_players():
+        if player.Favs == 2:
+            player.Rank = "Congratulations, they got both of their desired modules. You have made it to the first place"
+        if player.Favs == 1:
+            player.Rank = "You have received one of your desired modules. With this you occupy the second place"
+        if player.Favs == 0:
+            player.Rank = "Unfortunately, you didn't get any of the modules you wanted. Unfortunately you occupy the last place"
 
 
 ###############################################################################
@@ -309,6 +343,8 @@ class Introduction(Page):
 class Preference_elicitation(Page):
     form_model = "player"
     form_fields = ["prio_module_1_1", "prio_module_2_1", "prio_module_3_1", "prio_module_4_1"]
+    
+    create_barplot()
     
     def error_message(player, values):
         # Fehlerüberprüfung 1 bis 4
@@ -328,6 +364,7 @@ class PreferenceWaitPage(WaitPage):
 class Bid(Page):
     form_model = "player"
 
+    
     # Variabler Text für Gruppe 1 und 2
     def vars_for_template(player):
         if player.group.treatment == True:
@@ -341,11 +378,15 @@ class Bid(Page):
     
     # Formfields anhand von Gruppe anzeigen
     def get_form_fields(player):
+        form_fields = ["prio_module_1_2", "prio_module_2_2", "prio_module_3_2", "prio_module_4_2"]
+        random.shuffle(form_fields)
+
         if player.group.treatment == True:
-            return ["prio_module_1_2", "prio_module_2_2", "prio_module_3_2", "prio_module_4_2", "module_4_points", "module_3_points", "module_2_points", "module_1_points"]
-        if player.group.treatment == False:
-            return ["prio_module_1_2", "prio_module_2_2", "prio_module_3_2", "prio_module_4_2"]
-        
+            more_form_fields = ["module_1_points", "module_2_points", "module_3_points", "module_4_points"]
+            random.shuffle(more_form_fields)
+            form_fields += more_form_fields
+
+        return form_fields
     # Fehlerüberprüfung in Abhängigkeit von der Gruppe auf aufsummierte 100 oder 1 bis 4 Priorität 
     def error_message(player, values):
         # Fehlerüberprüfung 1 bis 4 und 100
@@ -374,6 +415,9 @@ class Results(Page):
     @staticmethod
     def vars_for_template(player: Player):
         group = player.group
+    def clean(player):
+        if player.Happiness is None:
+            raise models.ValidationError('Please select a value for Happiness.')
 
 class End(Page):
     form_model = "player"
