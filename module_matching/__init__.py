@@ -25,10 +25,7 @@ class C(BaseConstants):
     BID_MIN = cu(0)
     BID_MAX = cu(100)
     INSTRUCTIONS_TEMPLATE = "module_matching/instructions.html"
-    MODULE_1 = "Monetary policy"
-    MODULE_2 = "Brand management"
-    MODULE_3 = "Financial analysis"
-    MODULE_4 = "History of economic ethics"
+
 
 class Subsession(BaseSubsession):
     pass
@@ -45,10 +42,10 @@ def creating_session(subsession: Subsession):
 ################################
 
 class Group(BaseGroup):
-    prio_1_module_1  = models.IntegerField(doc="amount of participants who choose Monetary policy as priority 1", initial=0)
-    prio_1_module_2  = models.IntegerField(doc="amount of participants who choose Brand management as priority 1", initial=0)
-    prio_1_module_3  = models.IntegerField(doc="amount of participants who choose Financial analysis as priority 1", initial=0)
-    prio_1_module_4  = models.IntegerField(doc="amount of participants who choose History of economic ethics as priority 1", initial=0)
+    prio_1_monetary_policy  = models.IntegerField(doc="amount of participants who choose Monetary policy as priority 1", initial=0)
+    prio_1_brand_management  = models.IntegerField(doc="amount of participants who choose Brand management as priority 1", initial=0)
+    prio_1_financial_analysis  = models.IntegerField(doc="amount of participants who choose Financial analysis as priority 1", initial=0)
+    prio_1_history_of_economics_ethics  = models.IntegerField(doc="amount of participants who choose History of economic ethics as priority 1", initial=0)
     treatment = models.BooleanField()
      
 
@@ -60,19 +57,19 @@ class Player(BasePlayer):
     
     # Dropdown 1-4 Prios für beide Gruppen Nr. 1
     
-    prio_module_1_1 = models.IntegerField(
+    prio_monetary_policy_1 = models.IntegerField(
         choices=[("1", 1),("2", 2),("3", 3),("4", 4),],
         verbose_name="Priority monetary policy"
     )
-    prio_module_2_1 = models.IntegerField(
+    prio_brand_management_1 = models.IntegerField(
         choices=[("1", 1),("2", 2),("3", 3),("4", 4),],
         verbose_name="Priority brand management"
     )
-    prio_module_3_1 = models.IntegerField(
+    prio_financial_analysis_1 = models.IntegerField(
         choices=[("1", 1),("2", 2),("3", 3),("4", 4),],
         verbose_name="Priority financial analysis"
     )
-    prio_module_4_1 = models.IntegerField(
+    prio_history_of_economics_ethics_1 = models.IntegerField(
         choices=[("1", 1),("2", 2),("3", 3),("4", 4),],
         verbose_name="Priority history of economic ethics"
     )
@@ -80,36 +77,36 @@ class Player(BasePlayer):
     
     # Dropdown 1-4 Prios für beide Gruppen Nr. 2
     
-    prio_module_1_2 = models.IntegerField(
+    prio_monetary_policy_2 = models.IntegerField(
         choices=[("1", 1),("2", 2),("3", 3),("4", 4),],
         verbose_name="Priority monetary policy"
     )
-    prio_module_2_2 = models.IntegerField(
+    prio_brand_management_2 = models.IntegerField(
         choices=[("1", 1),("2", 2),("3", 3),("4", 4),],
         verbose_name="Priority brand management"
     )
-    prio_module_3_2 = models.IntegerField(
+    prio_financial_analysis_2 = models.IntegerField(
         choices=[("1", 1),("2", 2),("3", 3),("4", 4),],
         verbose_name="Priority financial analysis"
     )
-    prio_module_4_2 = models.IntegerField(
+    prio_history_of_economics_ethics_2 = models.IntegerField(
         choices=[("1", 1),("2", 2),("3", 3),("4", 4),],
         verbose_name="Priority history of economic ethics"
     )
 
 
     # Points
-    module_1_points = models.CurrencyField(doc="Points for monetary policy", label="Points for monetary policy", initial=0, max=C.BID_MAX, min=C.BID_MIN)
-    module_2_points = models.CurrencyField(doc="Points for brand management", label="Points for brand management", initial=0, max=C.BID_MAX, min=C.BID_MIN)
-    module_3_points = models.CurrencyField(doc="Points for financial analysis", label="Points for financial analysis", initial=0, max=C.BID_MAX, min=C.BID_MIN)
-    module_4_points = models.CurrencyField(doc="Points for history of economic ethics", label="Points for history of economic ethics", initial=0, max=C.BID_MAX, min=C.BID_MIN)
+    monetary_policy_points = models.CurrencyField(doc="Points for monetary policy", label="Points for monetary policy", initial=0, max=C.BID_MAX, min=C.BID_MIN)
+    brand_management_points = models.CurrencyField(doc="Points for brand management", label="Points for brand management", initial=0, max=C.BID_MAX, min=C.BID_MIN)
+    financial_analysis_points = models.CurrencyField(doc="Points for financial analysis", label="Points for financial analysis", initial=0, max=C.BID_MAX, min=C.BID_MIN)
+    history_of_economics_ethics_points = models.CurrencyField(doc="Points for history of economic ethics", label="Points for history of economic ethics", initial=0, max=C.BID_MAX, min=C.BID_MIN)
     
      
     # Results
     WPM1 = models.StringField()
     WPM2 = models.StringField()
-    Favs = models.IntegerField()
-    Rank = models.StringField()
+    Points = models.IntegerField(initial=0)
+    Rank = models.IntegerField(initial=0)
     Happiness = models.IntegerField(label="How happy are you with your Results from 1-10 with 10 being the happiest:", widget=widgets.RadioSelect,choices=[(i, i) for i in range(1, 11)])
     Notes = models.TextField()
 
@@ -131,14 +128,14 @@ def prio_1_modules(group: Group):
     players = group.get_players()
     
     for p in players:
-        if p.prio_module_1_1 == 1:
-            group.prio_1_module_1 += 1
-        if p.prio_module_2_1 == 1:
-            group.prio_1_module_2 += 1
-        if p.prio_module_3_1 == 1:
-            group.prio_1_module_3 += 1
-        if p.prio_module_4_1 == 1:
-            group.prio_1_module_4 += 1
+        if p.prio_monetary_policy_1 == 1:
+            group.prio_1_monetary_policy += 1
+        if p.prio_brand_management_1 == 1:
+            group.prio_1_brand_management += 1
+        if p.prio_financial_analysis_1 == 1:
+            group.prio_1_financial_analysis += 1
+        if p.prio_history_of_economics_ethics_1 == 1:
+            group.prio_1_history_of_economics_ethics += 1
 
 
     #################################
@@ -146,14 +143,21 @@ def prio_1_modules(group: Group):
     #################################
 def create_barplot():
     labels = ['Monetary Policy', 'Brand Management', 'Financial Analysis', 'History of Economic Ethics']
-    values = [50, 30, 15, 5]
+    values = [30, 9, 30, 9]
     colors = ['#F9B5AC', '#F9D9AD', '#B5EAD7', '#C7CEEA']
-    
-    plt.bar(labels, values, color = colors)
-    plt.xlabel('Courses')
-    plt.ylabel('Points')
-    plt.title('Barplot Diagram')
-    plt.xticks(fontsize=7)
+
+    fig, ax = plt.subplots()
+
+    bars = ax.bar(labels, values, color=colors)
+    ax.set_xlabel('Courses')
+    ax.set_ylabel('Points')
+    ax.set_title('Barplot Diagram')
+    ax.tick_params(axis='x',labelsize=7)
+
+    for bar in bars:
+        height = bar.get_height()
+        ax.text(bar.get_x() + bar.get_width() / 2, height, str(height), ha='center', va='bottom')
+
     plt.savefig("_static/barplot.png")
     print("Barplot erstellt und abgespeichert")
 
@@ -167,10 +171,10 @@ def get_wpms(group: Group):
     player_prio_1_list = []
     for player in group.get_players():
         player_dict = {
-            "monetary policy": player.prio_module_1_1,
-            "brand management": player.prio_module_2_1,
-            "financial analysis": player.prio_module_3_1,
-            "history of economic ethics": player.prio_module_4_1,
+            "monetary policy": player.prio_monetary_policy_1,
+            "brand management": player.prio_brand_management_1,
+            "financial analysis": player.prio_financial_analysis_1,
+            "history of economic ethics": player.prio_history_of_economics_ethics_1,
             }
         player_prio_1_list.append(player_dict)
     df_prio_1 = pd.DataFrame(player_prio_1_list)
@@ -188,10 +192,10 @@ def get_wpms(group: Group):
     player_prio_2_list = []
     for player in group.get_players():
         player_dict = {
-            "monetary policy": player.prio_module_1_2,
-            "brand management": player.prio_module_2_2,
-            "financial analysis": player.prio_module_3_2,
-            "history of economic ethics": player.prio_module_4_2,
+            "monetary policy": player.prio_monetary_policy_2,
+            "brand management": player.prio_brand_management_2,
+            "financial analysis": player.prio_financial_analysis_2,
+            "history of economic ethics": player.prio_history_of_economics_ethics_2,
             }
         player_prio_2_list.append(player_dict)
     df_prio_2 = pd.DataFrame(player_prio_2_list)
@@ -207,10 +211,10 @@ def get_wpms(group: Group):
     for player in group.get_players():
         if player.group.treatment == True:
             player_dict = {
-                "monetary policy": player.module_1_points,
-                "brand management": player.module_2_points,
-                "financial analysis": player.module_3_points,
-                "history of economic ethics": player.module_4_points,
+                "monetary policy": player.monetary_policy_points,
+                "brand management": player.brand_management_points,
+                "financial analysis": player.financial_analysis_points,
+                "history of economic ethics": player.history_of_economics_ethics_points,
                 }
         if player.group.treatment == False:
             player_dict = {
@@ -284,51 +288,70 @@ def get_wpms(group: Group):
         player.WPM2 = df_output.iloc[1, player_count]
         player_count += 1
         print(player_count)
-
-
-    # Überprüfen ob WPMs unter Favoriten waren
-    df_prio_1_sorted = df_prio_1.stack().sort_values(ascending=True).reset_index()
-    row_count = {"P1": 0, "P2": 0, "P3": 0, "P4": 0}
-    df_output_1 = pd.DataFrame({"P1":["",""],"P2":["",""],"P3":["",""],"P4":["",""]})
-    for index, row in df_sorted.iterrows():
-        if row_count[row["level_0"]] < 2:
-            print("Zeile:", row["level_0"], ", Spalte:", row["level_1"])
-            print( row_count[row["level_0"]])
+ 
+        
+    for player in group.get_players():
+        if player.WPM1 == "monetary policy":
+            player.Points += 5 - player.prio_monetary_policy_1
+        if player.WPM1 == "brand management":
+            player.Points += 5 - player.prio_brand_management_1
+        if player.WPM1 == "financial analysis":
+            player.Points +=  5 -player.prio_financial_analysis_1
+        if player.WPM1 == "history of economic ethics":
+            player.Points += 5 - player.prio_history_of_economics_ethics_1
+        if player.WPM1 == None:
+            player.Points += 0
             
-            if row["level_0"] == "P1":
-                df_output_1["P1"].iloc[row_count[row["level_0"]]] = row["level_1"]
+        if player.WPM2 == "monetary policy":
+            player.Points += 5 -player.prio_monetary_policy_1
+        if player.WPM2 == "brand management":
+            player.Points += 5 - player.prio_brand_management_1
+        if player.WPM2 == "financial analysis":
+            player.Points += 5 - player.prio_financial_analysis_1
+        if player.WPM2 == "history of economic ethics":
+            player.Points += 5 - player.prio_history_of_economics_ethics_1
+        if player.WPM2 == None:
+            player.Points += 0
                 
-            if row["level_0"] == "P2":
-                df_output_1["P2"].iloc[row_count[row["level_0"]]] = row["level_1"]
+    df_rank = {
+        "PlayerID": [],
+        "Points":   []
+        }
 
-            if row["level_0"] == "P3":
-                df_output_1["P3"].iloc[row_count[row["level_0"]]] = row["level_1"]
+    df_rank = pd.DataFrame(df_rank)
 
-            if row["level_0"] == "P4":
-                df_output_1["P4"].iloc[row_count[row["level_0"]]] = row["level_1"]
-
-            row_count[row["level_0"]] += 1
-
-    common_numbers = []
-    for column in df_output.columns:
-        common_numbers.append(df_output[column].isin(df_output_1[column]).sum())
-        
-    print(common_numbers)
     i = 0
+    
     for player in group.get_players():
-        player.Favs = int(common_numbers[i])
+        df_rank.loc[i,"PlayerID"] = player.id_in_group
+        df_rank.loc[i,"Points"] = player.Points
         i += 1
-        
-        
+
+    df_rank_sorted = df_rank.sort_values(by="Points", ascending=False)
+    
+    df_rank_sorted["Rank"] = 0
+
+    current_rank = 1
+    current_points = None
+    rank_counter = 0
+
+    for index, row in df_rank_sorted.iterrows():
+        if row['Points'] != current_points:
+            current_rank += rank_counter
+            rank_counter = 1
+        else:
+            rank_counter += 1
+        df_rank_sorted.at[index, 'Rank'] = current_rank
+        current_points = row['Points']
+
+
     for player in group.get_players():
-        if player.Favs == 2:
-            player.Rank = "Congratulations, they got both of their desired modules. You have made it to the first place"
-        if player.Favs == 1:
-            player.Rank = "You have received one of your desired modules. With this you occupy the second place"
-        if player.Favs == 0:
-            player.Rank = "Unfortunately, you didn't get any of the modules you wanted. Unfortunately you occupy the last place"
+        player.Rank = int(df_rank_sorted.loc[df_rank_sorted["PlayerID"] == player.id_in_group, "Rank"].values[0])
 
 
+
+
+    
 ###############################################################################
 ############################   PAGES   ########################################
 ############################################################################### 
@@ -342,19 +365,19 @@ class Introduction(Page):
 
 class Preference_elicitation(Page):
     form_model = "player"
-    form_fields = ["prio_module_1_1", "prio_module_2_1", "prio_module_3_1", "prio_module_4_1"]
+    form_fields = ["prio_monetary_policy_1", "prio_brand_management_1", "prio_financial_analysis_1", "prio_history_of_economics_ethics_1"]
     
     create_barplot()
     
     def error_message(player, values):
         # Fehlerüberprüfung 1 bis 4
-        user_input = [values["prio_module_1_1"], values["prio_module_2_1"], values["prio_module_3_1"], values["prio_module_4_1"]]
+        user_input = [values["prio_monetary_policy_1"], values["prio_brand_management_1"], values["prio_financial_analysis_1"], values["prio_history_of_economics_ethics_1"]]
         if set(user_input) != set(range(1, 5)):
             return "Bitte geben Sie jede Zahl von 1 bis 4 nur einmal ein."
     form_model = "player"
-    form_fields = ["prio_module_1_1", "prio_module_2_1", "prio_module_3_1", "prio_module_4_1"]
+    form_fields = ["prio_monetary_policy_1", "prio_brand_management_1", "prio_financial_analysis_1", "prio_history_of_economics_ethics_1"]
     def error_message(player, values):
-        user_input = [values["prio_module_1_1"], values["prio_module_2_1"], values["prio_module_3_1"], values["prio_module_4_1"]]
+        user_input = [values["prio_monetary_policy_1"], values["prio_brand_management_1"], values["prio_financial_analysis_1"], values["prio_history_of_economics_ethics_1"]]
         if set(user_input) != set(range(1, 5)):
             return "Please select each priority only once"
 
@@ -378,11 +401,11 @@ class Bid(Page):
     
     # Formfields anhand von Gruppe anzeigen
     def get_form_fields(player):
-        form_fields = ["prio_module_1_2", "prio_module_2_2", "prio_module_3_2", "prio_module_4_2"]
+        form_fields = ["prio_monetary_policy_2", "prio_brand_management_2", "prio_financial_analysis_2", "prio_history_of_economics_ethics_2"]
         random.shuffle(form_fields)
 
         if player.group.treatment == True:
-            more_form_fields = ["module_1_points", "module_2_points", "module_3_points", "module_4_points"]
+            more_form_fields = ["monetary_policy_points", "brand_management_points", "financial_analysis_points", "history_of_economics_ethics_points"]
             random.shuffle(more_form_fields)
             form_fields += more_form_fields
 
@@ -392,16 +415,16 @@ class Bid(Page):
         # Fehlerüberprüfung 1 bis 4 und 100
         if player.group.treatment == True:
             # 100 
-            if values["module_1_points"] + values["module_2_points"] + values["module_3_points"] + values["module_4_points"] != 100:
+            if values["monetary_policy_points"] + values["brand_management_points"] + values["financial_analysis_points"] + values["history_of_economics_ethics_points"] != 100:
                 return "The numbers must add up to 100"
             # 1 bis 4
-            user_input = [values["prio_module_1_2"], values["prio_module_2_2"], values["prio_module_3_2"], values["prio_module_4_2"]]
+            user_input = [values["prio_monetary_policy_2"], values["prio_brand_management_2"], values["prio_financial_analysis_2"], values["prio_history_of_economics_ethics_2"]]
             if set(user_input) != set(range(1, 5)):
                 return "Bitte geben Sie jede Zahl von 1 bis 4 nur einmal ein."
         
         # Fehlerüberprüfung 1 bis 4
         if player.group.treatment == False:
-            user_input = [values["prio_module_1_2"], values["prio_module_2_2"], values["prio_module_3_2"], values["prio_module_4_2"]]
+            user_input = [values["prio_monetary_policy_2"], values["prio_brand_management_2"], values["prio_financial_analysis_2"], values["prio_history_of_economics_ethics_2"]]
             if set(user_input) != set(range(1, 5)):
                 return "Bitte geben Sie jede Zahl von 1 bis 4 nur einmal ein."
 
