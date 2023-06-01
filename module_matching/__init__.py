@@ -107,8 +107,11 @@ class Player(BasePlayer):
     WPM2 = models.StringField()
     Points = models.IntegerField(initial=0)
     Rank = models.IntegerField(initial=0)
-    Happiness = models.IntegerField(label="How happy are you with your Results from 1-10 with 10 being the happiest:", widget=widgets.RadioSelect,choices=[(i, i) for i in range(1, 11)])
-    Notes = models.TextField()
+    WhichIsBetter = models.IntegerField(label="Which of the mechanisms do you prefer?", widget=widgets.RadioSelect, choices=[[1, "Goethe"], [2, "Experiment"]])
+    Control = models.IntegerField(label="In which mechanism do you feel like you have more control over your module choice?", widget=widgets.RadioSelect, choices=[[1, "Goethe"], [2, "Experiment"]])
+    RandomChoice = models.IntegerField(label="Which mechanism exposes you to more randomness?", widget=widgets.RadioSelect, choices=[[1, "Goethe"], [2, "Experiment"]])
+    Comfortable = models.IntegerField(label="Which mechanism are you more comfortable in?", widget=widgets.RadioSelect, choices=[[1, "Goethe"], [2, "Experiment"]])
+    FinalChoice = models.IntegerField(label="Which mechanism should be implemented in the real world?", widget=widgets.RadioSelect, choices=[[1, "Goethe"], [2, "Experiment"]])
 
     
 
@@ -143,7 +146,7 @@ def prio_1_modules(group: Group):
     #################################
 def create_barplot():
     labels = ['Monetary Policy', 'Brand Management', 'Financial Analysis', 'History of Economic Ethics']
-    values = [30, 9, 30, 9]
+    values = [30, 9, 30, 0]
     colors = ['#F9B5AC', '#F9D9AD', '#B5EAD7', '#C7CEEA']
 
     fig, ax = plt.subplots()
@@ -434,13 +437,21 @@ class ResultsWaitPage(WaitPage):
 
 class Results(Page):
     form_model = "player"
-    form_fields = ["Happiness", "Notes"]
+    form_fields = ["WhichIsBetter", "Control", "RandomChoice", "Comfortable", "FinalChoice"]
     @staticmethod
     def vars_for_template(player: Player):
         group = player.group
     def clean(player):
-        if player.Happiness is None:
-            raise models.ValidationError('Please select a value for Happiness.')
+        if player.WhichIsBetter is None:
+            raise models.ValidationError('Please select a value')
+        if player.Control is None:
+            raise models.ValidationError('Please select a value')
+        if player.RandomChoice is None:
+            raise models.ValidationError('Please select a value')
+        if player.Comfortable is None:
+            raise models.ValidationError('Please select a value')
+        if player.FinalChoice is None:
+            raise models.ValidationError('Please select a value')
 
 class End(Page):
     form_model = "player"
