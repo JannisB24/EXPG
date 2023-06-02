@@ -4,3 +4,4 @@ psycopg2>=2.8.4
 sentry-sdk>=0.7.9
 pandas>=2.0.0
 django>= 4.2.1
+matplotlib==3.7.1

@@ -1,7 +1,6 @@
 import pandas as pd
 from otree.api import *
 import random
-from django import forms
 import matplotlib.pyplot as plt
 
 
