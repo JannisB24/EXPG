@@ -1,4 +1,6 @@
+# oTree-may-not-overwrite-this-file
 otree==5.10.3
 psycopg2>=2.8.4
 sentry-sdk>=0.7.9
 pandas>=2.0.0
+django>= 4.2.1

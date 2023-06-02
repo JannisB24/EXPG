@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 import os
 import sys
+from otree.api import *
 
 
 if __name__ == "__main__":
