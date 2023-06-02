@@ -21,14 +21,15 @@
 
 </table>
 
-
-<div style="border: 1px solid black; padding: 10px;">
-    Remember the current module allocation system at Goethe University: <br>
-    You are able to rank modules with capacity constraints according to your preferences (just like you did in the first screen). <br>
-    Then students are ordered randomly, with the first student in line being able to choose his/her first preference. <br>
-    If you compare the system at Goethe University with the mechanism you just played in... <br>
-    {{ formfields }}
-</div>
+{% if group.treatment == True %}
+    <div style="border: 1px solid black; padding: 10px;">
+        Remember the current module allocation system at Goethe University: <br>
+        You are able to rank modules with capacity constraints according to your preferences (just like you did in the first screen). <br>
+        Then students are ordered randomly, with the first student in line being able to choose his/her first preference. <br>
+        If you compare the system at Goethe University with the mechanism you just played in... <br>
+        {{ formfields }}
+    </div>
+{% endif %}
 
 {{ next_button }}
 

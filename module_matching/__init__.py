@@ -5,7 +5,16 @@ from django import forms
 import matplotlib.pyplot as plt
 
 
-
+choice1 = [(1,"Goethe"), (2,"Experiment")]
+random.shuffle(choice1)
+choice2 = [(1,"Goethe"), (2,"Experiment")]
+random.shuffle(choice2)
+choice3 = [(1,"Goethe"), (2,"Experiment")]
+random.shuffle(choice1)
+choice4 = [(1,"Goethe"), (2,"Experiment")]
+random.shuffle(choice1)
+choice5 = [(1,"Goethe"), (2,"Experiment")]
+random.shuffle(choice2)
 
 c = cu
 
@@ -25,6 +34,7 @@ class C(BaseConstants):
     BID_MIN = cu(0)
     BID_MAX = cu(100)
     INSTRUCTIONS_TEMPLATE = "module_matching/instructions.html"
+    
 
 
 class Subsession(BaseSubsession):
@@ -103,16 +113,17 @@ class Player(BasePlayer):
     
      
     # Results
+    
     WPM1 = models.StringField()
     WPM2 = models.StringField()
     Points = models.IntegerField(initial=0)
     Rank = models.IntegerField(initial=0)
-    WhichIsBetter = models.IntegerField(label="Which of the mechanisms do you prefer?", widget=widgets.RadioSelect, choices=[[1, "Goethe"], [2, "Experiment"]])
-    Control = models.IntegerField(label="In which mechanism do you feel like you have more control over your module choice?", widget=widgets.RadioSelect, choices=[[1, "Goethe"], [2, "Experiment"]])
-    RandomChoice = models.IntegerField(label="Which mechanism exposes you to more randomness?", widget=widgets.RadioSelect, choices=[[1, "Goethe"], [2, "Experiment"]])
-    Comfortable = models.IntegerField(label="Which mechanism are you more comfortable in?", widget=widgets.RadioSelect, choices=[[1, "Goethe"], [2, "Experiment"]])
-    FinalChoice = models.IntegerField(label="Which mechanism should be implemented in the real world?", widget=widgets.RadioSelect, choices=[[1, "Goethe"], [2, "Experiment"]])
-
+    WhichIsBetter = models.IntegerField(label="Which of the mechanisms do you prefer?", widget=widgets.RadioSelect, choices=choice1)
+    Control = models.IntegerField(label="In which mechanism do you feel like you have more control over your module choice?", widget=widgets.RadioSelect, choices=choice2)
+    RandomChoice = models.IntegerField(label="Which mechanism exposes you to more randomness?", widget=widgets.RadioSelect, choices=choice3)
+    Comfortable = models.IntegerField(label="Which mechanism are you more comfortable in?", widget=widgets.RadioSelect, choices=choice4)
+    FinalChoice = models.IntegerField(label="Which mechanism should be implemented in the real world?", widget=widgets.RadioSelect, choices=choice5)
+    Winner = models.IntegerField()
     
 
 ###############################################################################
@@ -352,9 +363,13 @@ def get_wpms(group: Group):
         player.Rank = int(df_rank_sorted.loc[df_rank_sorted["PlayerID"] == player.id_in_group, "Rank"].values[0])
 
 
-
-
+    winner_list = [0,0,0,1]
+    random.shuffle(winner_list)
     
+    for player in group.get_players():
+        player.Winner = winner_list.pop(0)
+
+
 ###############################################################################
 ############################   PAGES   ########################################
 ############################################################################### 
@@ -437,8 +452,15 @@ class ResultsWaitPage(WaitPage):
 
 class Results(Page):
     form_model = "player"
-    form_fields = ["WhichIsBetter", "Control", "RandomChoice", "Comfortable", "FinalChoice"]
+    
+    def get_form_fields(player):
+        if player.group.treatment == True:
+            form_fields = ["WhichIsBetter", "Control", "RandomChoice", "Comfortable", "FinalChoice"]
+        if player.group.treatment == False:
+            form_fields = []
+        return form_fields
     @staticmethod
+    
     def vars_for_template(player: Player):
         group = player.group
     def clean(player):
@@ -455,4 +477,13 @@ class Results(Page):
 
 class End(Page):
     form_model = "player"
+    def vars_for_template(player):
+        if player.Winner == 0:
+            winner_text = "No Haribo for you"
+            
+        if player.Winner == 1:
+            winner_text = "Congrats you get some Haribos"
+        return {"winner_text": winner_text}
+         
+            
 page_sequence = [Introduction, Preference_elicitation, PreferenceWaitPage, Bid, ResultsWaitPage, Results, End]
