@@ -1,17 +1,20 @@
 {{ extends 'global/Page.html' }}
-{{ block title }}Bidding process{{ endblock }}
+{{ block title }}Allocation process{{ endblock }}
 
 {{ block content }}
 
 <div style="border: 1px solid black; padding: 10px;">
     <p>
-        Die Module wurden so oft mit Prio 1 gewählt
+        <h4>Statistical information</h4>
+        Thank you for stating your personal preferences. <br>
+        Now we want to provide you with information on the other participants and an overview to your own vote. <br>
+        <br>These numbers count how often the corresponding modules were chosen as first priority by you and your fellow participants:
         <br>Monetary policy: {{ group.prio_1_monetary_policy }}
         <br>Brand management: {{ group.prio_1_brand_management }}
         <br>Financial analysis: {{ group.prio_1_financial_analysis }}
         <br>History of economic ethics: {{ group.prio_1_history_of_economics_ethics }}
         <br>
-        <br>Deine eigenen Präferenzen waren dabei wie folgt:
+        <br>You stated your personal preferences according to the following breakdown (1 being first priority):
         <br>Monetary policy: {{ player.prio_monetary_policy_1 }}
         <br>Brand management: {{ player.prio_brand_management_1 }}
         <br>Financial analysis: {{ player.prio_financial_analysis_1 }}
@@ -19,22 +22,18 @@
     </p>
 </div>
 
+<p>
+    <br>
+    {{ my_text }}
+    <br>
+</p>
+
 {% if group.treatment == True %}
     <div style="border: 1px solid black; padding: 10px; margin-bottom: 1em; margin-top: 1em;">
-        <h1>Barplot Überschrift</h1>
+        <h4>Previous years' bidding behavior</h4>
         <img src="{{ static "barplot.png" }}" />
-        <p> These are the points that were necessary to get into the courses </p>
     </div>        
 {% endif %}
-
-
-<p>
-
-
-    {{ my_text }}
-    
-    
-</p>
 
 <div style="border: 1px solid black; padding: 10px;">
     {{ formfields }}
