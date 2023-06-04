@@ -9,11 +9,11 @@ random.shuffle(choice1)
 choice2 = [(1,"Goethe"), (2,"Experiment")]
 random.shuffle(choice2)
 choice3 = [(1,"Goethe"), (2,"Experiment")]
-random.shuffle(choice1)
+random.shuffle(choice3)
 choice4 = [(1,"Goethe"), (2,"Experiment")]
-random.shuffle(choice1)
+random.shuffle(choice4)
 choice5 = [(1,"Goethe"), (2,"Experiment")]
-random.shuffle(choice2)
+random.shuffle(choice5)
 
 c = cu
 
@@ -164,7 +164,6 @@ def create_barplot():
     bars = ax.bar(labels, values, color=colors)
     ax.set_xlabel('Courses')
     ax.set_ylabel('Points')
-    ax.set_title('Barplot Diagram')
     ax.tick_params(axis='x',labelsize=7)
 
     for bar in bars:
