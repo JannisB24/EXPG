@@ -7,7 +7,10 @@ USE_POINTS = True
 DEMO_PAGE_INTRO_HTML = ""
 PARTICIPANT_FIELDS = []
 SESSION_FIELDS = []
-ROOMS = []
+ROOMS = [dict(
+        name='EXPG',
+        display_name='EXPG'
+    ),]
 DEBUG = False
 
 ADMIN_USERNAME = "admin"
