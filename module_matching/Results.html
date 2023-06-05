@@ -22,18 +22,21 @@
 </table>
 
 <p>
-    Congratulations on achieving a total payoff of {{ player.Points }} points, which places you at {{ player.Rank }} rank among your peers. You were / were not chosen to receive a sweet payoff.<br>
+    Congratulations on achieving a total payoff of {{ player.Points }} points, which places you at {{ player.Rank }} rank among your peers. <br>
+    You have / have not been selected to receive a sweet payoff.<br>
 </p>
 
 {% if group.treatment == True %}
     <div style="border: 1px solid black; padding: 10px;">
-        Remember the current module allocation system at Goethe University: <br>
-        You are able to rank modules with capacity constraints according to your preferences (just like you did in the first screen). <br>
-        Then students are ordered randomly, with the first student in line being able to choose his/her first preference. <br>
-        If you compare the system at Goethe University with the mechanism you just played in... <br>
+        <h4>Questionnaire</h4>
+        Let's consider the module allocation system currently implemented at Goethe University:<br>
+        In this system, you have the opportunity to rank modules with capacity constraints based on your preferences, similar to what you did in the first screen.<br>
+        Following that, students are randomly ordered, and the first student in line has the privilege of selecting their first preference.<br> <br>
+        When comparing the system at Goethe University with the mechanism you just experienced... <br><br>
         {{ formfields }}
     </div>
 {% endif %}
+<br>
 
 {{ next_button }}
 

@@ -118,10 +118,10 @@ class Player(BasePlayer):
     Points = models.IntegerField(initial=0)
     Rank = models.IntegerField(initial=0)
     WhichIsBetter = models.IntegerField(label="Which of the mechanisms do you prefer?", widget=widgets.RadioSelect, choices=choice1)
-    Control = models.IntegerField(label="In which mechanism do you feel like you have more control over your module choice?", widget=widgets.RadioSelect, choices=choice2)
-    RandomChoice = models.IntegerField(label="Which mechanism exposes you to more randomness?", widget=widgets.RadioSelect, choices=choice3)
-    Comfortable = models.IntegerField(label="Which mechanism are you more comfortable in?", widget=widgets.RadioSelect, choices=choice4)
-    FinalChoice = models.IntegerField(label="Which mechanism should be implemented in the real world?", widget=widgets.RadioSelect, choices=choice5)
+    Control = models.IntegerField(label="In which mechanism do you believe you have greater control over your module choice?", widget=widgets.RadioSelect, choices=choice2)
+    RandomChoice = models.IntegerField(label="Which mechanism do you think involves a higher degree of randomness?", widget=widgets.RadioSelect, choices=choice3)
+    Comfortable = models.IntegerField(label="Which mechanism do you feel more comfortable with?", widget=widgets.RadioSelect, choices=choice4)
+    FinalChoice = models.IntegerField(label="Which mechanism do you think should be implemented in the real world?", widget=widgets.RadioSelect, choices=choice5)
     Winner = models.IntegerField()
     
 
