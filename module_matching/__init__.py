@@ -376,7 +376,7 @@ def get_wpms(group: Group):
     
     for player in group.get_players():
         player.Winner = winner_list.pop(0)
-
+        
 
 ###############################################################################
 ############################   PAGES   ########################################
@@ -427,14 +427,10 @@ class Bid(Page):
     
     # Formfields anhand von Gruppe anzeigen
     def get_form_fields(player):
-        order = [0,1,2,3]
-        random.shuffle(order)
         form_fields = ["prio_monetary_policy_2", "prio_brand_management_2", "prio_financial_analysis_2", "prio_history_of_economics_ethics_2"]
-        form_fields = sorted(form_fields, key=lambda x: order.index(form_fields.index(x)))
 
         if player.group.treatment == True:
             more_form_fields = ["monetary_policy_points", "brand_management_points", "financial_analysis_points", "history_of_economics_ethics_points"]
-            more_form_fields = sorted(more_form_fields, key=lambda x: order.index(more_form_fields.index(x)))
             form_fields += more_form_fields
 
         return form_fields
