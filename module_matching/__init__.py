@@ -88,27 +88,27 @@ class Player(BasePlayer):
     
     prio_monetary_policy_2 = models.IntegerField(
         choices=[("1", 1),("2", 2),("3", 3),("4", 4),],
-        verbose_name="Priority monetary policy"
+        verbose_name="...monetary policy"
     )
     prio_brand_management_2 = models.IntegerField(
         choices=[("1", 1),("2", 2),("3", 3),("4", 4),],
-        verbose_name="Priority brand management"
+        verbose_name="...brand management"
     )
     prio_financial_analysis_2 = models.IntegerField(
         choices=[("1", 1),("2", 2),("3", 3),("4", 4),],
-        verbose_name="Priority financial analysis"
+        verbose_name="...financial analysis"
     )
     prio_history_of_economics_ethics_2 = models.IntegerField(
         choices=[("1", 1),("2", 2),("3", 3),("4", 4),],
-        verbose_name="Priority history of economic ethics"
+        verbose_name="...history of economic ethics"
     )
 
 
     # Points
-    monetary_policy_points = models.CurrencyField(doc="Points for monetary policy", label="Points for monetary policy", initial=0, max=C.BID_MAX, min=C.BID_MIN)
-    brand_management_points = models.CurrencyField(doc="Points for brand management", label="Points for brand management", initial=0, max=C.BID_MAX, min=C.BID_MIN)
-    financial_analysis_points = models.CurrencyField(doc="Points for financial analysis", label="Points for financial analysis", initial=0, max=C.BID_MAX, min=C.BID_MIN)
-    history_of_economics_ethics_points = models.CurrencyField(doc="Points for history of economic ethics", label="Points for history of economic ethics", initial=0, max=C.BID_MAX, min=C.BID_MIN)
+    monetary_policy_points = models.CurrencyField(doc="Bidding points allocated to monetary policy", label="Bidding points allocated to monetary policy", initial=0, max=C.BID_MAX, min=C.BID_MIN)
+    brand_management_points = models.CurrencyField(doc="Bidding points allocated to brand management", label="Bidding points allocated to brand management", initial=0, max=C.BID_MAX, min=C.BID_MIN)
+    financial_analysis_points = models.CurrencyField(doc="Bidding points allocated to financial analysis", label="Bidding points allocated to financial analysis", initial=0, max=C.BID_MAX, min=C.BID_MIN)
+    history_of_economics_ethics_points = models.CurrencyField(doc="Bidding points allocated to history of economic ethics", label="Bidding points allocated to history of economic ethics", initial=0, max=C.BID_MAX, min=C.BID_MIN)
     
      
     # Results
@@ -408,7 +408,7 @@ class Bid(Page):
     def vars_for_template(player):
         if player.group.treatment == True:
             # Text für Gruppe mit Punkten
-            my_text = "Now you can again state priorities and also have 100 bidding points available, to get the modules you desire. <br> <br>The bidding process works as follows: <br>- Initially, students are ordered by their preferences over the modules <br>- Only if there are more applicants than capacity for a module, the bidding comes into play <br>- Among people with the same priority, the highest bids win seats in the module <br>- For the small probability that students have the same priority and equal bids, the winner is taken by chance<br> <br>In the textbox above there are assumptions for lowest bids that would have got you into these modules in prior years (market-clearing prices)."
+            my_text = "You now have the opportunity to restate your priorities and also possess 100 bidding points to secure the modules you desire. <br>The bidding process operates in the following manner: <ul><li>Initially, students are ordered by their preferences over the modules</li><li>Only if there are more applicants than capacity for a module, the bidding comes into play</li><li>Among people with the same priority, the highest bids win seats in the module</li><li>For the small probability that students have the same priority and equal bids, the winner is taken by chance</li></ul>In the textbox above, you will find estimates of the minimum bids required to secure enrollment for these modules in previous years (referred to as market-clearing prices)."
         else:
             # Text für Gruppe mit Prioritäten
             my_text = "Now you have to decide which module you want to take. You can give each module a priority from 1 to 4, with 1 being the highest priority. Each elective module can have 2 participants and each participant gets into 2 elective modules. The higher the priority you give to a module, the higher the chance that you will be assigned to it."

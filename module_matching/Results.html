@@ -4,7 +4,7 @@
 {{ block content }}
 
 <p>
-    Thank you for participating in our experiment. These are the modules that you obtained:
+    Thank you for your participation in our experiment. Here are the modules that you have been assigned to:
 </p>
 
 <table class="table" style="width:600px">
@@ -22,7 +22,7 @@
 </table>
 
 <p>
-    With a total payoff of x points you are ranked xth among your peers. You were / were not chosen to receive a sweet payoff.
+    Congratulations on achieving a total payoff of {{ player.Points }} points, which places you at {{ player.Rank }} rank among your peers. You were / were not chosen to receive a sweet payoff.<br>
 </p>
 
 {% if group.treatment == True %}

@@ -9,23 +9,59 @@
         Thank you for sharing your personal preferences. <br>
         Now, we would like to provide you with information about the other participants and present a comprehensive summary of your own voting choices. <br>
         <br>These numbers reflect how frequently you and your fellow participants chose each module as your first priority:
-        <br>Monetary policy: {{ group.prio_1_monetary_policy }}
-        <br>Brand management: {{ group.prio_1_brand_management }}
-        <br>Financial analysis: {{ group.prio_1_financial_analysis }}
-        <br>History of economic ethics: {{ group.prio_1_history_of_economics_ethics }}
-        <br>
+        <style>
+            td:first-child {
+              padding-right: 10px;
+            }
+          </style>    
+            <table>
+            <tr>
+                <td>Monetary policy:</td>
+                <td>{{ group.prio_1_monetary_policy }}</td>
+            </tr>
+            <tr>
+                <td>Brand management:</td>
+                <td>{{ group.prio_1_brand_management }}</td>
+            </tr>
+            <tr>
+                <td>Financial analysis:</td>
+                <td>{{ group.prio_1_financial_analysis }}</td>
+            </tr>
+            <tr>
+                <td>History of economic ethics:</td>
+                <td>{{ group.prio_1_history_of_economics_ethics }}</td>
+            </tr>
+            </table>
+          <br>
         <br>Here is the breakdown of how you ranked the modules in the previous screen (1 being your first priority):
-        <br>Monetary policy: {{ player.prio_monetary_policy_1 }}
-        <br>Brand management: {{ player.prio_brand_management_1 }}
-        <br>Financial analysis: {{ player.prio_financial_analysis_1 }}
-        <br>History of economic ethics: {{ player.prio_history_of_economics_ethics_1 }}
+        <table>
+            <tr>
+            <td>Monetary policy:</td>
+            <td>{{ player.prio_monetary_policy_1 }}</td>
+            </tr>
+            <tr>
+            <td>Brand management:</td>
+            <td>{{ player.prio_brand_management_1 }}</td>
+            </tr>
+            <tr>
+            <td>Financial analysis:</td>
+            <td>{{ player.prio_financial_analysis_1 }}</td>
+            </tr>
+            <tr>
+            <td>History of economic ethics:</td>
+            <td>{{ player.prio_history_of_economics_ethics_1 }}</td>
+            </tr>
+        </table>
     </p>
 </div>
 
 <p>
-    <br>Now you're in competitition with your group members.<br>
-    To each module above there are only two seats available (e.g. if everyone fancies the same module, only two are able to enroll). <br>
-    Initially you ranked all modules from priority 1-4. You can see an overview of your choices in the box above. These preferences determine your payoff in the end of the experiment. 
+    <br>Now, you will be in competition with your group members. For each module listed above, there are only two available seats. <br>
+    This means that if everyone has the same module as their top choice, only two individuals will be able to enroll.<br><br>
+    At the beginning, you ranked all the modules from 1 to 4 based on your priorities. You can find an overview of your choices in the provided box. These preferences will ultimately determine your payoff at the end of the experiment. <br>
+    Ultimately, all group members will be ranked based on the number of payoff points they have accumulated. <br>
+    Subsequently, a member will be randomly selected to receive sweets based on their collected payoff points. <br> <br>
+    Below is an overview indicating the number of points you would receive for each priority:
     <ul>
         <li>First priority: 4 points</li>
         <li>Second priority: 3 points</li>
@@ -47,8 +83,10 @@
 </p>
 
 <div style="border: 1px solid black; padding: 10px;">
+    <p>Please choose the priority for...</p>
     {{ formfields }}
 </div>
+<br>
 {{ next_button }}
 
 
