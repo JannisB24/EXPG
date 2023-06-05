@@ -68,19 +68,19 @@ class Player(BasePlayer):
     
     prio_monetary_policy_1 = models.IntegerField(
         choices=[("1", 1),("2", 2),("3", 3),("4", 4),],
-        verbose_name="Priority monetary policy"
+        verbose_name="...monetary policy"
     )
     prio_brand_management_1 = models.IntegerField(
         choices=[("1", 1),("2", 2),("3", 3),("4", 4),],
-        verbose_name="Priority brand management"
+        verbose_name="...brand management"
     )
     prio_financial_analysis_1 = models.IntegerField(
         choices=[("1", 1),("2", 2),("3", 3),("4", 4),],
-        verbose_name="Priority financial analysis"
+        verbose_name="...financial analysis"
     )
     prio_history_of_economics_ethics_1 = models.IntegerField(
         choices=[("1", 1),("2", 2),("3", 3),("4", 4),],
-        verbose_name="Priority history of economic ethics"
+        verbose_name="...history of economic ethics"
     )
     
     
@@ -408,7 +408,7 @@ class Bid(Page):
     def vars_for_template(player):
         if player.group.treatment == True:
             # Text für Gruppe mit Punkten
-            my_text = "Now you're in competitition with your group members.<br>The goal is to enroll into your two favourite modules, while there are only two seats available per module (e.g. if everyone fancies the same module, only two are able to enroll). <br>Initially you ranked all modules from priority 1-4. You can see an overview of your choices in the box above. These preferences determine your payoff in the end of the experiment. <br> <br>Now you can again state priorities and also have 100 bidding points available, to get the modules you desire. <br> <br>The bidding process works as follows: <br>- Initially, students are ordered by their preferences over the modules <br>- Only if there are more applicants than capacity for a module, the bidding comes into play <br>- Among people with the same priority, the highest bids win seats in the module <br>- For the small probability that students have the same priority and equal bids, the winner is taken by chance<br> <br>In the textbox above there are assumptions for lowest bids that would have got you into these modules in prior years (market-clearing prices)."
+            my_text = "Now you're in competitition with your group members.<br>To each module above there are only two seats available (e.g. if everyone fancies the same module, only two are able to enroll). <br>Initially you ranked all modules from priority 1-4. You can see an overview of your choices in the box above. These preferences determine your payoff in the end of the experiment. <ul><li>First priority: 4 points</li><li>Second priority: 3 points</li><li>Third priority: 2 points</li><li>Fourth priority: 1 point</li></ul><br> <br>Now you can again state priorities and also have 100 bidding points available, to get the modules you desire. <br> <br>The bidding process works as follows: <br>- Initially, students are ordered by their preferences over the modules <br>- Only if there are more applicants than capacity for a module, the bidding comes into play <br>- Among people with the same priority, the highest bids win seats in the module <br>- For the small probability that students have the same priority and equal bids, the winner is taken by chance<br> <br>In the textbox above there are assumptions for lowest bids that would have got you into these modules in prior years (market-clearing prices)."
         else:
             # Text für Gruppe mit Prioritäten
             my_text = "Now you have to decide which module you want to take. You can give each module a priority from 1 to 4, with 1 being the highest priority. Each elective module can have 2 participants and each participant gets into 2 elective modules. The higher the priority you give to a module, the higher the chance that you will be assigned to it."
