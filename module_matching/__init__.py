@@ -117,6 +117,7 @@ class Player(BasePlayer):
     WPM2 = models.StringField()
     Points = models.IntegerField(initial=0)
     Rank = models.IntegerField(initial=0)
+    RankString = models.StringField()
     WhichIsBetter = models.IntegerField(label="Which of the mechanisms do you prefer?", widget=widgets.RadioSelect, choices=choice1)
     Control = models.IntegerField(label="In which mechanism do you believe you have greater control over your module choice?", widget=widgets.RadioSelect, choices=choice2)
     RandomChoice = models.IntegerField(label="Which mechanism do you think involves a higher degree of randomness?", widget=widgets.RadioSelect, choices=choice3)
@@ -359,8 +360,17 @@ def get_wpms(group: Group):
 
     for player in group.get_players():
         player.Rank = int(df_rank_sorted.loc[df_rank_sorted["PlayerID"] == player.id_in_group, "Rank"].values[0])
-
-
+        
+    for player in group.get_players():
+        if player.Rank == 1:
+            player.RankString = "first"
+        if player.Rank == 2:
+            player.RankString = "second"
+        if player.Rank == 3:
+            player.RankString = "third"
+        if player.Rank == 4:
+            player.RankString = "fourth"
+            
     winner_list = [0,0,0,1]
     random.shuffle(winner_list)
     
@@ -417,15 +427,18 @@ class Bid(Page):
     
     # Formfields anhand von Gruppe anzeigen
     def get_form_fields(player):
+        order = [0,1,2,3]
+        random.shuffle(order)
         form_fields = ["prio_monetary_policy_2", "prio_brand_management_2", "prio_financial_analysis_2", "prio_history_of_economics_ethics_2"]
-        random.shuffle(form_fields)
+        form_fields = sorted(form_fields, key=lambda x: order.index(form_fields.index(x)))
 
         if player.group.treatment == True:
             more_form_fields = ["monetary_policy_points", "brand_management_points", "financial_analysis_points", "history_of_economics_ethics_points"]
-            random.shuffle(more_form_fields)
+            more_form_fields = sorted(more_form_fields, key=lambda x: order.index(more_form_fields.index(x)))
             form_fields += more_form_fields
 
         return form_fields
+    
     # Fehlerüberprüfung in Abhängigkeit von der Gruppe auf aufsummierte 100 oder 1 bis 4 Priorität 
     def error_message(player, values):
         # Fehlerüberprüfung 1 bis 4 und 100
@@ -477,10 +490,10 @@ class End(Page):
     form_model = "player"
     def vars_for_template(player):
         if player.Winner == 0:
-            winner_text = "No Haribo for you"
+            winner_text = "Unfortunately, you were not selected to receive a sweet payoff"
             
         if player.Winner == 1:
-            winner_text = "Congrats you get some Haribos"
+            winner_text = "Congratulations, you were randomly selected to receive a number of sweets according to your payoff points"
         return {"winner_text": winner_text}
          
             
